@@ -1,0 +1,16 @@
+.Smhome-container-1{
+    min-height: 100vh;
+    max-width: 1250px;
+    width: 100%;
+    display: flex;
+    flex-grow: 2;
+    /* justify-content: space-between; */
+    margin: 0% auto;
+}
+
+.Smhome-container-2{
+    width: 100%;
+    border: 1px solid #ff9900;
+    padding: 50px 13px;
+    box-sizing: border-box;
+}

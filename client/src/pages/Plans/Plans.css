@@ -1,0 +1,5 @@
+@media(max-width:400px){
+    .home-container-2{
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,37 @@
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chat-container h1 {
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.gradient-button {
+  background: linear-gradient(45deg, #ff5500, #f800ff);
+  border: none;
+  color: #ffffff;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  margin-left: 5px; /* Add this line to shift the button a few pixels to the right */
+}
+
+.gradient-button:hover {
+  background: linear-gradient(45deg, #f800ff, #ff5500);
+}
