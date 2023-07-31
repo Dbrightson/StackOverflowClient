@@ -8,7 +8,7 @@ export const generateOTP = async (req, res) => {
     if (user) {
       console.log('server ctrl genOTP');
       let otp;
-      if (!await OTP.findOne({ phno: req.body.phno })) {
+      if (!(await OTP.findOne({ phno: req.body.phno }))) {
         otp = new OTP({
           phno: req.body.phno,
           otp: (Math.floor(Math.random() * 10000) + 1).toString(),
@@ -36,8 +36,7 @@ export const generateOTP = async (req, res) => {
       return res.status(500).send({ message: 'User Not Found, Please register' });
     }
   } catch (error) {
-    console.log('Error generating OTP:', error);
-    return res.status(500).send({ message: 'Retry' });
+    return res.status(500).send({ message: error });
   }
 };
 
@@ -54,7 +53,6 @@ export const verifyOTP = async (req, res) => {
       return res.status(500).send({ message: 'Retry' });
     }
   } catch (error) {
-    console.log('Error verifying OTP:', error);
-    return res.status(500).send({ message: 'Retry' });
+    return res.status(500).send({ message: 'Retry' + error });
   }
 };
