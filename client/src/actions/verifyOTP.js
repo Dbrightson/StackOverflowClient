@@ -1,17 +1,19 @@
-import * as api from '../api'
+import OTP from '../models/otp';
+import * as api from '../api';
 
-export const generateOTP = async(phno) =>{
-    try {
-        return await (await api.generateOTP(phno)).data.message
-    } catch (error) {
-        console.log('src actions verifyOTP generateOTP',error)
+export const verifyOTP = async (req, res) => {
+  try {
+    const user = await OTP.findOne({ phno: req.body.phno });
+    if (user) {
+      if (req.body.recvOTP === user.otp) {
+        return res.status(200).send({ message: true });
+      } else {
+        return res.status(500).send({ message: false });
+      }
+    } else {
+      return res.status(500).send({ message: 'Retry' });
     }
-}
-
-export const verifyOTP = async (phno,recvOTP) => {
-    try {
-        return await (await api.verifyOTP(phno,recvOTP)).data.message
-    } catch (error) {
-        console.log('src actions verifyOTP verifyOTP',error)
-    }
-}
+  } catch (error) {
+    return res.status(500).send({ message: 'Retry ' + error.message });
+  }
+};
