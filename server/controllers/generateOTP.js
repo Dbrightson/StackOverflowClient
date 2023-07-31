@@ -7,15 +7,16 @@ export const generateOTP = async (req, res) => {
         var user = await User.findOne({ phno: req.body.phno });
         if (user) {
             console.log('server ctrl genOTP');
+            let otp;
             if (!await OTP.findOne({ phno: req.body.phno })) {
-                var otp = new OTP({
+                otp = new OTP({
                     phno: req.body.phno,
                     otp: (Math.floor(Math.random() * 10000) + 1).toString(),
                     expiresIn: new Date().getTime() + 300 * 1000,
                 });
                 await otp.save();
             } else {
-                var otp = await OTP.findOneAndUpdate(
+                otp = await OTP.findOneAndUpdate(
                     { phno: req.body.phno },
                     {
                         otp: Math.floor(Math.random() * 10000) + 1,
@@ -24,7 +25,7 @@ export const generateOTP = async (req, res) => {
                     { returnDocument: 'after' }
                 );
             }
-            const otpStatus = sendOTP(otp);
+            const otpStatus = await sendOTP(otp); // Await the sendOTP function
             if (otpStatus) {
                 return res.status(200).send({ message: 'Mail Sent Successfully' });
             } else {
@@ -34,7 +35,7 @@ export const generateOTP = async (req, res) => {
             return res.status(500).send({ message: 'User Not Found, Please register' });
         }
     } catch (error) {
-        return res.status(500).send({ message: error });
+        return res.status(500).send({ message: error.message || 'Internal Server Error' });
     }
 };
 
