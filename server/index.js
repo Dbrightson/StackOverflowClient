@@ -1,41 +1,31 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import cors from 'cors'
-import userRoutes from './routes/users'
-import questionRoutes from './routes/Questions'
-import answerRoutes from './routes/Answers'
-import dotenv from 'dotenv'
-import verification from './routes/verification'
-import searchStackOverflow from './routes/searchStackOverflow'
-import paymentRoutes from './routes/payment'
-import cron from 'node-cron'
-import helmet from 'helmet'
-import updatePlans from './utilities/updatePlans'
-import plans from './routes/Plans'
-import postRoutes from './routes/post.routes'
-import config from './config/config'
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-const app = express()
+import userRoutes from './routes/users.js';
+import questionRoutes from './routes/Questions.js';
+import answerRoutes from './routes/Answers.js';
+import verificationRoutes from './routes/verification.js'; // New route for OTP verification
+import bodyParser from 'body-parser';
+import twilio from 'twilio';
 
-dotenv.config()
-app.use(express.json({limit:'30mb',extended:true}))
-app.use(express.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors())
-app.use(helmet({
-    crossOriginResourcePolicy: false,
-  }));
+const app = express();
+dotenv.config();
+app.use(express.json({ limit: '30mb', extended: true }));
+app.use(express.urlencoded({ limit: '30mb', extended: true }));
+app.use(cors({
+  origin: process.env.BACKEND_LINK
+}));
 
-mongoose.set('strictQuery', true)
 app.get('/', (req, res) => {
-    res.status(200).send("This is a stack overflow clone api")
-    console.log('server fired up at port', PORT);
-    console.log(req.protocol + '://' + req.get('host') + req.originalUrl)
-})
+  res.send('This is a stack overflow clone API');
+});
 
-app.use('/users',userRoutes)
-app.use('/questions', questionRoutes)
-app.use('/answer',answerRoutes)
-app.use('/verify',verification)
+app.use('/user', userRoutes);
+app.use('/questions', questionRoutes);
+app.use('/answer', answerRoutes);
+app.use('/verify', verificationRoutes); // New route for OTP verification
 app.use('/search',searchStackOverflow)
 app.use('/payment', paymentRoutes);
 app.use('/plans', plans)
