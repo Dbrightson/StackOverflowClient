@@ -1,9 +1,17 @@
-import express from 'express';
-import { generateOTP, verifyOTP } from '../controllers/generateOTP';
+import * as api from '../api'
 
-const router = express.Router();
+export const generateOTP = async(phno) =>{
+    try {
+        return await (await api.generateOTP(phno)).data.message
+    } catch (error) {
+        console.log('src actions verifyOTP generateOTP',error)
+    }
+}
 
-router.post('/phno', generateOTP);
-router.post('/otp', verifyOTP);
-
-export default router;
+export const verifyOTP = async (phno,recvOTP) => {
+    try {
+        return await (await api.verifyOTP(phno,recvOTP)).data.message
+    } catch (error) {
+        console.log('src actions verifyOTP verifyOTP',error)
+    }
+}
