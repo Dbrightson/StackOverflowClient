@@ -8,22 +8,17 @@ const client = twilio(accountSid, authToken);
 
 const sendOTP = async (user) => {
   try {
-    const verification = await client.verify.services(process.env.TWILIO_SERVICE)
-      .verifications
-      .create({
+    const verification = await client.verify
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+      .verifications.create({
         to: user.phno,
         channel: 'sms',
       });
 
-    if (verification.status === 'pending') {
-      console.log('OTP Send Success');
-      return true;
-    } else {
-      console.log('OTP Send failed');
-      return false;
-    }
+    console.log('OTP Send Success');
+    return true;
   } catch (error) {
-    console.log('Error sending OTP:', error);
+    console.log('OTP Send failed', error);
     return false;
   }
 };
