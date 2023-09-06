@@ -7,7 +7,7 @@ const SupportWindow = props => {
   const loadKommunicateWidget = () => {
     (function (d, m) {
       var kommunicateSettings = {
-        appId: '18d99dd645b6bed5ec46d16752340e654',
+        appId: '1e5a2a8a8274853cef373267152324b63',
         popupWidget: true,
         automaticChatOpenOnNavigation: true
       };
